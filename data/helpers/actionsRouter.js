@@ -61,6 +61,17 @@ router.put('/:id', validateAction, (req, res) => {
 
 //DELETE
 
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    // const action = req.body;
+    db.remove(id)
+        .then(action => {
+            res.status(200).json({ message: "that action was deleted SUCCESSFULLY" })
+        })
+        .catch(error => {
+            res.status(500).json({ message: "was not able to delete this action" })
+        })
+});
 
 //MIDDLEWARE
 
