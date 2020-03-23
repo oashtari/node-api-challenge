@@ -4,6 +4,9 @@ const router = express.Router();
 const db = require('./projectModel');
 
 
+// update,
+// remove,
+
 //GET
 
 router.get('/', (req, res) => {
@@ -30,34 +33,13 @@ router.get('/:id/actions', (req, res) => {
                 res.status(404).json({ message: "could not get those actions" })
             }
         })
-        .catch(error => { res.status(500).json({ error: "unable to hit the actions database" }) })
+        .catch(error => {
+            res.status(500).json({ error: "unable to hit the actions database" })
+        })
 })
 
 
 //POST
-
-// router.post("/", (req, res) => {
-//     const { title, contents } = req.body;
-//     // console.log('the post content', post)
-
-//     if (!title || !contents) {
-//         res.status(400)
-//             .json({ errorMessage: "Please provide title and contents for the post." })
-//     } else if (title && contents) {
-//         Hubs.insert({ title: title, contents: contents })
-//             .then(postID => {
-//                 Hubs.findById(postID.id)
-//                     .then(post =>
-//                         res.status(201)
-//                             .json(post)
-//                     )
-//             })
-//     } else {
-//         res.status(500)
-//             .json({ error: "There was an error while saving the post to the database." })
-//     }
-// });
-
 
 router.post('/', validateProject, (req, res) => {
     const project = req.body;
@@ -86,8 +68,37 @@ router.post('/', validateProject, (req, res) => {
 
 //PUT
 
+router.put('/:id', validateProject, (req, res) => {
+    const { id } = req.params;
+    const project = req.body;
+
+    db.update(id, project)
+        .then(project => {
+            if (project) {
+                res.status(200).json(project)
+            } else {
+                res.status(404).json({ message: "that project could not be found" })
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ error: "could not get that project" })
+        })
+});
+
 
 //DELETE
+
+// router.delete('/:id', validateUserId, (req, res) => {
+//     // do your magic!
+//     db.remove(req.user.id)
+//       .then(() => {
+//         res.status(200).json(req.user)
+//       })
+//       .catch(error => {
+//         res.status(500).json({ message: "was not able to delete this user" })
+//       })
+//   });
+
 
 
 
