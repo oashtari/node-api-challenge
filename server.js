@@ -4,15 +4,15 @@ const server = express();
 
 server.use(express.json());
 
-// const userRouter = require('./users/userRouter');
-// const postsRouter = require('./posts/postRouter');
+const projectsRouter = require('./data/helpers/projectsRouter');
+const actionsRouter = require('./data/helpers/actionsRouter');
 
 
 server.get('/', (req, res) => {
     res.status(200).json({ Server: 'Running' })
 });
 
-// server.use(`/api/users`, userRouter);
-// server.use(`/api/posts`, postsRouter)
+server.use(`/projects`, projectsRouter);
+server.use(`/actions`, actionsRouter);
 
 module.exports = server;
