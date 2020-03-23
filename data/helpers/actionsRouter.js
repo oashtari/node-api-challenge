@@ -4,10 +4,6 @@ const db = require('./actionModel');
 
 const router = express.Router();
 
-// insert,
-// update,
-// remove,
-
 //GET
 
 router.get('/', (req, res) => {
