@@ -3,10 +3,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('./projectModel');
 
-
-// update,
-// remove,
-
 //GET
 
 router.get('/', (req, res) => {
@@ -52,20 +48,6 @@ router.post('/', validateProject, (req, res) => {
         })
 });
 
-// router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
-//     // do your magic!
-//     console.log('what is req params', req.params)
-//     const id = req.params.id;
-
-//     postDb.insert({ user_id: id, text: req.body.text })
-//         .then(post => {
-//             res.status(201).json(post)
-//         })
-//         .catch(error => {
-//             res.status(500).json({ error: "was not able to add post to postDb" })
-//         })
-// });
-
 //PUT
 
 router.put('/:id', validateProject, (req, res) => {
@@ -88,36 +70,22 @@ router.put('/:id', validateProject, (req, res) => {
 
 //DELETE
 
-// router.delete('/:id', validateUserId, (req, res) => {
-//     // do your magic!
-//     db.remove(req.user.id)
-//       .then(() => {
-//         res.status(200).json(req.user)
-//       })
-//       .catch(error => {
-//         res.status(500).json({ message: "was not able to delete this user" })
-//       })
-//   });
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    const project = req.body;
+    db.remove(id)
+        .then(project => {
+            res.status(200).json({ message: "that project was deleted SUCCESSFULLY" })
+        })
+        .catch(error => {
+            res.status(500).json({ message: "was not able to delete this project" })
+        })
+});
 
 
 
 
 //MIDDLEWARE
-
-function validateProjectsId(req, res, next) {
-    // do your magic!
-    const id = req.params.id;
-
-    db.getById(id)
-        .then(user => {
-            if (user) {
-                req.user = user;
-                next()
-            } else {
-                res.status(400).json({ message: "invalid user id" })
-            }
-        })
-}
 
 function validateProject(req, res, next) {
     if (req.body) {
